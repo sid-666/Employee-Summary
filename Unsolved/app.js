@@ -54,6 +54,35 @@ const Questions = [
         name: "officenumber"
     }
 ]
+const generateEmployeeList = () => {
+    inquirer.prompt({
+        type: "input",
+        message: "How many memebers in team?",
+        type: "teamnum"
+    }).then(answer => {
+        for (var i = 0; i < parseInt(answer) + 1; i++) {
+            inquirer.prompt(Questions)
+                .then(answers => {
+                    const Employeelist = [];
+                    switch (answers) {
+                        case answers.role == "Engineer":
+                            window[`teammember${i + 1}`] = new Engineer(answers.name, answers.id, answers.email, answers.github);
+                            Employeelist.push(window[`teammember${i + 1}`])
+                            break;
+                        case answers.role == "Manager":
+                            window[`teammember${i + 1}`] = new Manager(answers.name, answers.id, answers.email, answers.officenumber);
+                            Employeelist.push(window[`teammember${i + 1}`])
+                            break;
+                        case answers.role == "Intern":
+                            window[`teammember${i + 1}`] = new Intern(answers.name, answers.is, answers.email, answers.school);
+                            Employeelist.push(window[`teammember${i + 1}`])
+                            break;
+                    }
+                    return Employeelist
+                })
+        }
+    })
+}
 // After the user has input all employees desired, call the `render` function (required
 // above) and pass in an array containing all employee objects; the `render` function will
 // generate and return a block of HTML including templated divs for each employee!
