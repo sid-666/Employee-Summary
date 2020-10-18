@@ -14,7 +14,7 @@ const render = require("./lib/htmlRenderer");
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
 // Question array
-const Questions = [
+const questions = [
     {
         type: "input",
         message: "What's the team-members name?",
@@ -95,37 +95,34 @@ async function generateEmployeeList() {
         },
         name: "teamnum"
     })
-    const Employeelist = [];
+    const employeelist = [];
     for (var i = 0; i < parseInt(teamnum); i++) {
-        var answers = await inquirer.prompt(Questions)
-        // window[`teammember${i + 1}`]
-        console.log(answers)
+        console.log(`team member ${i + 1}`)
+        var answers = await inquirer.prompt(questions)
         // Checks team members role and if so creates a new instance that will be stored in an array
         switch (answers.role[0]) {
             case "Engineer":
-                var man1 = new Engineer(answers.name, answers.id, answers.email, answers.github);
-                Employeelist.push(man1)
+                var employee = new Engineer(answers.name, answers.id, answers.email, answers.github);
+                employeelist.push(employee)
                 break;
             case "Manager":
-                var man1 = new Manager(answers.name, answers.id, answers.email, answers.officenumber);
-                Employeelist.push(man1)
+                var employee = new Manager(answers.name, answers.id, answers.email, answers.officenumber);
+                employeelist.push(employee)
                 break;
             case "Intern":
-                var man1 = new Intern(answers.name, answers.id, answers.email, answers.school);
-                Employeelist.push(man1)
+                var employee = new Intern(answers.name, answers.id, answers.email, answers.school);
+                employeelist.push(employee)
                 break;
             default:
                 console.log("Whoops");
         }
-        // console.log(Employeelist)
     }
-    console.log(Employeelist)
-    return Employeelist
+    return employeelist
 }
 // Gets html content
 async function getHtml() {
-    const Employeearray = await generateEmployeeList();
-    const html = render(Employeearray)
+    const employeearray = await generateEmployeeList();
+    const html = render(employeearray)
     console.log(html)
     return html
 }
